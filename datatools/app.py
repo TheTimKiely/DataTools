@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup, Tag
 
 from datatools.plotting import MatplotlibPlotter
 from datatools.providers import HttpProvider
+from datatools.regressions import StatsModelsRegressions
 
 
 def parse_hockey_reference(url):
@@ -62,11 +63,22 @@ def run_matplotlib(data_source):
     provider = HttpProvider()
     data = provider.download_data(data_source)
     plotter = MatplotlibPlotter()
-    plotter.scatterplot(x_data=data['temp']
-                , y_data=data['cnt']
-                , x_label='Normalized temperature (C)'
-                , y_label='Check outs'
-                , title='Number of Check Outs vs Temperature')
+    # plotter.scatterplot(x_data=data['temp'], y_data=data['cnt'],
+    #                     x_label='Normalized temperature (C)', y_label='Check outs',
+    #                     title='Number of Check Outs vs Temperature')
+    #
+    # regressions = StatsModelsRegressions()
+    # fitted_values = regressions.linear_regression(data['temp'], data['cnt'])
+    # plotter.lineplot(x_data=data['temp'], y_data=fitted_values,
+    #                  x_label='Normalized temperature (C)',
+    #                  y_label='Check outs',
+    #                  title='Line of Best Fit for Number of Check Outs vs Temperature')
+
+    plotter.histogram(data=data['registered'],
+                      x_label='Check outs', y_label='Frequency',
+                      title='Distribution of Registered Check Outs')
+
+    print('done')
 
 
 if __name__ == '__main__':
